@@ -1,5 +1,7 @@
 # dots
 
+this is a (wip) collection of my dotfiles
+
 # apps
 
  - ghostty
