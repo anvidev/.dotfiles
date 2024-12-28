@@ -20,7 +20,7 @@ install [stow](https://www.gnu.org/software/stow/) for easy symlinking.
 cd ~/.dotfiles
 
 # symlink each app
-stow <APPNAME>
+stow <DIR_NAME>
 
 # example
 stow ghostty
