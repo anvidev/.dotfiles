@@ -47,10 +47,10 @@ return {
             -- header = "",
             items = {
                 {
-                    { name = "Find Files", action = "Telescope find_files", section = "" },
-                    { name = "Recent Files", action = "Telescope oldfiles", section = "" },
-                    { name = "TODO", action = "Telescope todo-comments", section = "" },
-                    { name = "Quit", action = ":q!", section = "" },
+                    { name = "Find Files",   action = "Telescope find_files",    section = "" },
+                    { name = "Recent Files", action = "Telescope oldfiles",      section = "" },
+                    { name = "TODO",         action = "Telescope todo-comments", section = "" },
+                    { name = "Quit",         action = ":q!",                     section = "" },
                 },
             },
             content_hooks = {
