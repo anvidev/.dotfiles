@@ -24,6 +24,7 @@ local create_floating_window = function(opts)
         buf = vim.api.nvim_create_buf(false, true)
     end
 
+    ---@type vim.api.keyset.win_config
     local win_config = {
         relative = "editor",
         width = win_width,
@@ -31,7 +32,7 @@ local create_floating_window = function(opts)
         col = win_left,
         row = win_top,
         style = "minimal",
-        border = "rounded"
+        border = "solid"
     }
 
     local win = vim.api.nvim_open_win(buf, true, win_config)
