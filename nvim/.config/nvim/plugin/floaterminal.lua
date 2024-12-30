@@ -1,5 +1,3 @@
-vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
-
 local state = {
     floating = {
         win = -1,
@@ -54,3 +52,6 @@ local toggle_terminal = function()
 end
 
 vim.api.nvim_create_user_command("FloatTerminal", toggle_terminal, {})
+
+vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
+vim.keymap.set("n", "<leader>tt", "<cmd>FloatTerminal<CR>")
