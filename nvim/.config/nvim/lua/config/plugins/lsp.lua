@@ -19,7 +19,12 @@ return {
             servers = {
                 lua_ls = {},
                 gopls = {},
+                htmx = {},
                 sqlls = {},
+                ts_ls = {},
+                html = {},
+                tailwindcss = {},
+                emmet_language_server = {},
             }
         },
         config = function(_, opts)

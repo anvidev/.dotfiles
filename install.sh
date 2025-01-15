@@ -19,7 +19,7 @@ formulaes=(
 	'neovim',
 	'tmux',
 	'direnv',
-	'docker'
+	'pnpm',
 )
 
 echo "Starting installation of ${#formulaes[@]} brew formulaes"
@@ -35,7 +35,8 @@ casks=(
 	'ghostty',
 	'raycast',
 	'spotify',
-	'zen-browser'
+	'zen-browser',
+	'docker'
 )
 
 echo "All brew formulaes installed"

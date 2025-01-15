@@ -19,16 +19,19 @@ return {
 
             vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
             vim.keymap.set('n', 's', api.node.open.edit, opts('Open/close folder'))
+            vim.keymap.set('n', 'H', function()
+                api.tree.toggle_hidden_filter()
+                api.tree.toggle_gitignore_filter()
+            end, opts('Toggle all hidden files'))
         end
 
         require("nvim-tree").setup({
             on_attach = on_attach,
             filters = {
-                custom = { ".git", "node_modules", ".vscode" },
                 dotfiles = true,
             },
             git = {
-                enable = false,
+                enable = true,
             },
             diagnostics = {
                 enable = true,
