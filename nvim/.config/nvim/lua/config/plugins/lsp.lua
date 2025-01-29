@@ -4,6 +4,7 @@ return {
         dependencies = {
             { "williamboman/mason.nvim", config = true },
             "williamboman/mason-lspconfig.nvim",
+            "williamboman/mason-lspconfig.nvim",
             'saghen/blink.cmp',
             {
                 "folke/lazydev.nvim",
@@ -19,10 +20,11 @@ return {
             servers = {
                 lua_ls = {},
                 gopls = {},
-                htmx = {},
+                -- htmx = {}, -- htmx-lsp breaks blink.cmp for now (https://github.com/Saghen/blink.cmp/issues/825)
+                templ = {},
                 sqlls = {},
                 ts_ls = {},
-                html = {},
+                html = { filetypes = { "html", "templ" } },
                 tailwindcss = {},
                 emmet_language_server = {},
             }

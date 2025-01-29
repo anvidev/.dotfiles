@@ -10,6 +10,7 @@ return {
                     typescript = { "prettierd", "prettier", stop_after_first = true },
                     go = { "goimports", "gopls" },
                     sql = { "sql_formatter" },
+                    templ = { "templ" },
                 },
                 format_on_save = {
                     timeout_ms = 500,

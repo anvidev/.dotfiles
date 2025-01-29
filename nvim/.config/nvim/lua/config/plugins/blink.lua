@@ -13,19 +13,25 @@ return {
         ---@type blink.cmp.Config
         opts = {
             snippets = {
-                expand = function(snippet) require('luasnip').lsp_expand(snippet) end,
+                preset = "luasnip",
+                expand = function(snippet) require("luasnip").lsp_expand(snippet) end,
                 active = function(filter)
                     if filter and filter.direction then
-                        return require('luasnip').jumpable(filter.direction)
+                        return require("luasnip").jumpable(filter.direction)
                     end
-                    return require('luasnip').in_snippet()
+                    return require("luasnip").in_snippet()
                 end,
-                jump = function(direction) require('luasnip').jump(direction) end,
+                jump = function(direction) require("luasnip").jump(direction) end,
             },
             keymap = {
                 preset = 'enter',
             },
             completion = {
+                list = {
+                    selection = {
+                        preselect = true,
+                    }
+                },
                 accept = {
                     auto_brackets = {
                         enabled = true
@@ -40,6 +46,9 @@ return {
                     auto_show = true,
                     auto_show_delay_ms = 250,
                     treesitter_highlighting = true,
+                },
+                trigger = {
+                    show_on_insert_on_trigger_character = false,
                 },
             },
             appearance = {
@@ -60,17 +69,23 @@ return {
                     },
                     lsp = {
                         min_keyword_length = 0,
-                        score_offset = 0,
+                        score_offset = 90,
+                        module = "blink.cmp.sources.lsp",
                     },
                     path = {
                         min_keyword_length = 0,
+                        module = "blink.cmp.sources.path",
+                        score_offset = 25,
                     },
                     snippets = {
                         min_keyword_length = 2,
+                        score_offset = 85,
                     },
                     buffer = {
                         min_keyword_length = 4,
                         max_items = 4,
+                        module = "blink.cmp.sources.buffer",
+                        score_offset = 15,
                     },
                 },
             },
