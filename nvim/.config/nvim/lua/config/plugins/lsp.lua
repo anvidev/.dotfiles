@@ -24,9 +24,10 @@ return {
                 templ = {},
                 sqlls = {},
                 ts_ls = {},
-                html = { filetypes = { "html", "templ" } },
+                html = { filetypes = { "html", "templ", "svelte" } },
                 tailwindcss = {},
                 emmet_language_server = {},
+                svelte = {},
             }
         },
         config = function(_, opts)
