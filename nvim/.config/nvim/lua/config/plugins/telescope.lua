@@ -7,8 +7,24 @@ return {
             { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
         },
         config = function()
+            local ivy = require("telescope.themes").get_ivy()
             require("telescope").setup({
-                defaults = require('telescope.themes').get_ivy(),
+                defaults = {
+                    border = ivy.border,
+                    borderchars = ivy.borderchars,
+                    layout_config = ivy.layout_config,
+                    layout_strategy = ivy.layout_strategy,
+                    sorting_strateg = ivy.sorting_strategy,
+                    theme = ivy.theme,
+                    mappings = {
+                        n = {
+                            ["X"] = require("telescope.actions").delete_buffer,
+                        },
+                        i = {
+                            ["X"] = require("telescope.actions").delete_buffer,
+                        }
+                    }
+                },
                 extensions = {
                     fzf = {}
                 },
