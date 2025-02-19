@@ -4,8 +4,9 @@ return {
         dependencies = {
             { "williamboman/mason.nvim", config = true },
             "williamboman/mason-lspconfig.nvim",
-            "williamboman/mason-lspconfig.nvim",
-            'saghen/blink.cmp',
+            'WhoIsSethDaniel/mason-tool-installer.nvim',
+            'hrsh7th/cmp-nvim-lsp',
+            -- 'saghen/blink.cmp',
             {
                 "folke/lazydev.nvim",
                 ft = "lua",
@@ -31,11 +32,29 @@ return {
             }
         },
         config = function(_, opts)
-            local lspconfig = require('lspconfig')
-            for server, config in pairs(opts.servers) do
-                config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
-                lspconfig[server].setup(config)
-            end
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+
+            require('mason-tool-installer').setup({ ensure_installed = opts.servers })
+
+            require('mason-lspconfig').setup({
+                ensure_installed = {},
+                automatic_installation = false,
+                handlers = {
+                    function(server_name)
+                        local server = opts.servers[server_name] or {}
+
+                        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+                        require('lspconfig')[server_name].setup(server)
+                    end
+                }
+            })
+
+            -- local lspconfig = require('lspconfig')
+            -- for server, config in pairs(opts.servers) do
+            --     config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+            --     lspconfig[server].setup(config)
+            -- end
 
             vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename)
             vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
