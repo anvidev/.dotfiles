@@ -6,7 +6,6 @@ return {
             "williamboman/mason-lspconfig.nvim",
             'WhoIsSethDaniel/mason-tool-installer.nvim',
             'hrsh7th/cmp-nvim-lsp',
-            -- 'saghen/blink.cmp',
             {
                 "folke/lazydev.nvim",
                 ft = "lua",
@@ -29,6 +28,7 @@ return {
                 tailwindcss = {},
                 emmet_language_server = {},
                 svelte = {},
+                zls = {},
             }
         },
         config = function(_, opts)
@@ -49,12 +49,6 @@ return {
                     end
                 }
             })
-
-            -- local lspconfig = require('lspconfig')
-            -- for server, config in pairs(opts.servers) do
-            --     config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
-            --     lspconfig[server].setup(config)
-            -- end
 
             vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename)
             vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
