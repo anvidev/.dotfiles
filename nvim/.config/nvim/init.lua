@@ -44,6 +44,7 @@ vim.keymap.set("n", "<leader>lw", "<cmd>set wrap!<CR>")
 vim.keymap.set("n", "cn", "<cmd>cnext<CR>")
 vim.keymap.set("n", "cp", "<cmd>cprev<CR>")
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setqflist)
+vim.keymap.set("n", "YY", "va{Vy")
 
 vim.keymap.set("n", "<leader>dw", "<cmd>noautocmd w <CR>")
 
