@@ -64,6 +64,14 @@ vim.keymap.set("x", ">", function()
     vim.cmd("normal! gv")
 end)
 
+vim.keymap.set("n", "dn", function()
+    vim.diagnostic.jump({ count = 1, wrap = true })
+end)
+
+vim.keymap.set("n", "dp", function()
+    vim.diagnostic.jump({ count = -1, wrap = true })
+end)
+
 vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight text when yanked",
     group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
