@@ -7,9 +7,6 @@ return {
             {
                 'L3MON4D3/LuaSnip',
                 build = (function()
-                    -- Build Step is needed for regex support in snippets.
-                    -- This step is not supported in many windows environments.
-                    -- Remove the below condition to re-enable on windows.
                     if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
                         return
                     end
@@ -28,10 +25,21 @@ return {
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-nvim-lsp-signature-help',
+            'onsails/lspkind.nvim'
         },
         config = function()
             local cmp = require 'cmp'
             local luasnip = require 'luasnip'
+            local lspkind = require("lspkind")
+            local source_mapping = {
+                nvim_lsp = "[LSP]",
+                nvim_lua = "[LUA]",
+                luasnip = "[SNIP]",
+                buffer = "[BUF]",
+                path = "[PATH]",
+                treesitter = "[TREE]",
+                ["vim-dadbod-completion"] = "[DB]",
+            }
             luasnip.config.setup {}
 
             cmp.setup {
@@ -41,6 +49,10 @@ return {
                     end,
                 },
                 completion = { completeopt = 'menu,menuone,noinsert' },
+                window = {
+                    completion = cmp.config.window.bordered(),
+                    documentation = cmp.config.window.bordered(),
+                },
 
                 mapping = cmp.mapping.preset.insert {
                     ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -73,6 +85,14 @@ return {
                     { name = 'luasnip' },
                     { name = 'path' },
                     { name = 'nvim_lsp_signature_help' },
+                },
+
+                formatting = {
+                    format = lspkind.cmp_format({
+                        mode = "symbol_text",
+                        ellipsis_char = "...",
+                        menu = source_mapping,
+                    }),
                 },
             }
         end,
