@@ -17,6 +17,8 @@ alias gps="git push"
 alias gc="git clone"
 alias gl='git log --oneline --graph --decorate --all'
 
+alias tms='~/.config/tmux/tmux-sessionizer.sh'
+
 git_branch() {
   local branch
   branch=$(git branch --show-current 2> /dev/null)
@@ -29,3 +31,5 @@ setopt PROMPT_SUBST
 PROMPT='%n %~$(git_branch) %# '
 
 export PATH=`go env GOPATH`/bin/:$PATH
+
+eval "$(direnv hook zsh)"
