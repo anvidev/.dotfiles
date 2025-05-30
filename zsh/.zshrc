@@ -1,21 +1,23 @@
 alias dots="cd ~/.dotfiles/"
 alias v="nvim"
 alias y="yazi"
-alias ll="ls -lh"
+alias ll="ls -a -lh"
 alias md="mkdir"
 alias pn="pnpm"
+
 alias g="git"
+
 alias ga="git add"
-alias gaa="git add ."
-alias gs="git status"
-alias gcm="git commit -m"
-alias gsw="git switch"
-alias gsc"git switch -c"
+alias gap="git add --patch"
+alias gc="git commit"
+alias gu="git pull"
+alias gp="git push"
+alias gl='git log --graph --all --pretty=format:"%C(magenta)%h %C(white) %an  %ar%C(blue)  %D%n%s%n"'
+alias gw="git switch"
+alias gd='git diff --output-indicator-new=" " --output-indicator-old=" "'
+alias gs="git status --short"
 alias gf="git fetch"
-alias gpl="git pull"
-alias gps="git push"
-alias gc="git clone"
-alias gl='git log --oneline --graph --decorate --all'
+alias gcl="git clone"
 
 alias tms='~/.config/tmux/tmux-sessionizer.sh'
 
