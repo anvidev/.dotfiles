@@ -64,8 +64,3 @@
 	abbrevCommit = true
 	graphColors = blue,yellow,cyan,magenta,green,red
 
-[branch]
-	sort = -comitterdate
-
-[tag]
-	sort = -taggerdate
