@@ -4,6 +4,16 @@ return {
         event = { 'BufWritePre' },
         cmd = { 'ConformInfo' },
         opts = {},
+        keys = {
+            {
+                "<leader>fs",
+                function()
+                    require("conform").format({ async = true, lsp_fallback = true })
+                end,
+                mode = "v",
+                desc = "format selection"
+            }
+        },
         config = function()
             require("conform").setup({
                 notify_on_error = false,

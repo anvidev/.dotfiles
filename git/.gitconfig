@@ -38,15 +38,15 @@
 	upstream = green
 	plain = blue
 
+[diff-so-fancy]
+	markEmptyLines = false
+
 [pager]
 	diff = diff-so-fancy | $PAGER
 
 [interactive]
 	diffFilter = diff-so-fancy --patch
 	singleKey = true
-
-[diff-so-fancy]
-	markEmptyLines = false
 
 [push]
 	autoSetupRemote = true
@@ -63,9 +63,3 @@
 [log]
 	abbrevCommit = true
 	graphColors = blue,yellow,cyan,magenta,green,red
-
-[branch]
-	sort = -comitterdate
-
-[tag]
-	sort = -taggerdate
