@@ -28,8 +28,6 @@ vim.o.undofile = true
 vim.o.swapfile = false
 vim.o.signcolumn = "yes:2"
 vim.o.winborder = "rounded"
-vim.o.list = true
-vim.o.listchars = 'tab:┊ ,trail:␣'
 
 vim.diagnostic.config({ virtual_text = true })
 if vim.g.have_nerd_font then
@@ -43,6 +41,7 @@ end
 
 -- install plugins
 vim.pack.add({
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/rose-pine/neovim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
@@ -63,6 +62,23 @@ vim.pack.add({
 })
 
 -- require plugins
+---@diagnostic disable-next-line: missing-fields
+require("nvim-treesitter.configs").setup({
+	ensure_installed = {
+		"lua",
+		"vim",
+		"vimdoc",
+		"markdown",
+		"go",
+		"typescript",
+		"tsx"
+	},
+	auto_install = true,
+	highlight = {
+		enable = true,
+		additional_vim_regex_highlighting = false,
+	},
+})
 require("mini.ai").setup()
 require("mini.pairs").setup()
 require("lazydev").setup()
