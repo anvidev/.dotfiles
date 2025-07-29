@@ -54,7 +54,6 @@ vim.pack.add({
 		src = 'https://github.com/nvim-neo-tree/neo-tree.nvim',
 		version = vim.version.range('3')
 	},
-
 	-- dependencies of other plugins
 	"https://github.com/nvim-lua/plenary.nvim",
 	"https://github.com/MunifTanjim/nui.nvim",
@@ -88,10 +87,10 @@ require("gitsigns").setup({
 	sign_priority = 1000,
 	on_attach = function()
 		local gitsigns = require("gitsigns")
-		vim.keymap.set("n", "<leader>hs", gitsigns.stage_hunk)
-		vim.keymap.set("n", "<leader>hr", gitsigns.reset_hunk)
-		vim.keymap.set("n", "<leader>hp", gitsigns.preview_hunk)
-		vim.keymap.set("n", "<leader>hb", gitsigns.blame_line)
+		vim.keymap.set("n", "<leader>gs", gitsigns.stage_hunk)
+		vim.keymap.set("n", "<leader>gr", gitsigns.reset_hunk)
+		vim.keymap.set("n", "<leader>gp", gitsigns.preview_hunk)
+		vim.keymap.set("n", "<leader>gb", gitsigns.blame_line)
 		vim.keymap.set("n", "gn", function()
 			if vim.wo.diff then
 				vim.cmd.normal({ "]c", bang = true })
@@ -125,6 +124,7 @@ vim.cmd("colorscheme rose-pine")
 -- keymaps
 -- misc
 vim.keymap.set("n", "gx", ":sil !open <cWORD><cr>")
+vim.keymap.set("n", "gD", ":vs | lua vim.lsp.buf.definition()<CR>")
 vim.keymap.set({ "n", "v" }, "<leader>fa", vim.lsp.buf.format)
 vim.keymap.set("n", "<leader>lw", "<cmd>set wrap!<CR>")
 vim.keymap.set("n", "<leader>dw", "<cmd>noautocmd w <CR>")
@@ -178,6 +178,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		---@diagnostic disable-next-line: need-check-nil
 		if client:supports_method('textDocument/completion') then
+			---@diagnostic disable-next-line: need-check-nil
 			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
 		end
 	end,
@@ -190,15 +191,14 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 	callback = function()
 		vim.lsp.buf.format({
 			filter = function(client)
-				return client.supports_method('textDocument/formatting')
+				return client:supports_method('textDocument/formatting')
 			end
 		})
 	end
 })
 
 -- highlight on yank
-vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight text when yanked",
+vim.api.nvim_create_autocmd('TextYankPost', {
 	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank()
