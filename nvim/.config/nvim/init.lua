@@ -5,11 +5,9 @@
 -- gO = vim.lsp.buf.document_symbol
 -- CTRL-S (ctrl and shift + s) in insert mode = vim.buf.lsp.signature_help
 --
--- options
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
-
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.shiftwidth = 4
@@ -28,7 +26,6 @@ vim.o.undofile = true
 vim.o.swapfile = false
 vim.o.signcolumn = "yes:2"
 vim.o.winborder = "rounded"
-
 vim.diagnostic.config({ virtual_text = true })
 if vim.g.have_nerd_font then
 	local signs = { ERROR = "", WARN = "", INFO = "", HINT = "" }
@@ -38,7 +35,6 @@ if vim.g.have_nerd_font then
 	end
 	vim.diagnostic.config({ signs = { text = diagnostic_signs } })
 end
-
 -- install plugins
 vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
@@ -50,6 +46,7 @@ vim.pack.add({
 	{ src = "https://github.com/folke/lazydev.nvim" },
 	{ src = "https://github.com/echasnovski/mini.pairs" },
 	{ src = "https://github.com/echasnovski/mini.ai" },
+	{ src = "https://github.com/stevearc/conform.nvim" },
 	{
 		src = 'https://github.com/nvim-neo-tree/neo-tree.nvim',
 		version = vim.version.range('3')
@@ -108,6 +105,20 @@ require("gitsigns").setup({
 			end
 		end)
 	end
+})
+require("conform").setup({
+	formatters_by_ft = {
+		lua = { "stylua" },
+		javascript = { "prettier" },
+		typescript = { "prettier" },
+		go = { "goimports", "gopls" },
+		sql = { "sql_formatter" },
+		templ = { "templ" },
+	},
+	format_on_save = {
+		timeout_ms = 500,
+		lsp_format = "fallback",
+	},
 })
 
 -- enable lsps
@@ -183,19 +194,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		end
 	end,
 })
-vim.cmd("set completeopt+=noselect")
-
--- format on write file
-vim.api.nvim_create_autocmd('BufWritePre', {
-	pattern = '*',
-	callback = function()
-		vim.lsp.buf.format({
-			filter = function(client)
-				return client:supports_method('textDocument/formatting')
-			end
-		})
-	end
-})
+vim.cmd("set completeopt+=menuone,noselect")
 
 -- highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
