@@ -4,7 +4,8 @@
 -- gri = vim.lsp.buf.implementation
 -- gO = vim.lsp.buf.document_symbol
 -- CTRL-S (ctrl and shift + s) in insert mode = vim.buf.lsp.signature_help
---
+vim.filetype.add({ extension = { templ = "templ" } })
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
@@ -40,6 +41,7 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/rose-pine/neovim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
+	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
@@ -67,7 +69,8 @@ require("nvim-treesitter.configs").setup({
 		"markdown",
 		"go",
 		"typescript",
-		"tsx"
+		"tsx",
+		"templ",
 	},
 	auto_install = true,
 	highlight = {
@@ -80,6 +83,8 @@ require("mini.pairs").setup()
 require("lazydev").setup()
 require("fzf-lua").setup()
 require("neo-tree").setup({})
+require("mason").setup()
+require('nvim-web-devicons').setup()
 require("gitsigns").setup({
 	sign_priority = 1000,
 	on_attach = function()
@@ -121,12 +126,32 @@ require("conform").setup({
 	},
 })
 
+vim.lsp.config('*', {
+	capabilities = {
+		textDocument = {
+			semanticTokens = {
+				multilineTokenSupport = true,
+			}
+		},
+		workspace = {
+			didChangeWatchedFiles = {
+				dynamicRegistration = true,
+			},
+		},
+	},
+	root_markers = { '.git' },
+})
+
 -- enable lsps
 vim.lsp.enable({
 	"lua_ls",
 	"ts_ls",
-	"svelte-language-server",
-	"gopls"
+	-- "svelte-language-server",
+	"gopls",
+	"templ",
+	"tailwindcss",
+	"html",
+	"emmet_ls",
 })
 
 -- colors and theme
@@ -181,6 +206,9 @@ vim.keymap.set("n", "<leader>sc", ":FzfLua files cwd=~/.dotfiles<CR>")
 vim.keymap.set("n", "<leader>sr", ":FzfLua oldfiles<CR>")
 vim.keymap.set("n", "<leader>sb", ":FzfLua buffers<CR>")
 vim.keymap.set("n", "<leader>sg", ":FzfLua live_grep<CR>")
+vim.keymap.set("n", "<leader>sd", ":FzfLua diagnostics_workspace<CR>")
+vim.keymap.set("n", "<leader>ss", ":FzfLua lsp_document_symbols<CR>")
+vim.keymap.set("n", "<leader>s/", ":FzfLua grep_curbuf<CR>")
 
 -- autocmds
 -- showing intellisense
@@ -190,13 +218,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		---@diagnostic disable-next-line: need-check-nil
 		if client:supports_method('textDocument/completion') then
 			---@diagnostic disable-next-line: need-check-nil
+			vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'fuzzy', 'popup' }
+			---@diagnostic disable-next-line: need-check-nil
 			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+			vim.keymap.set('i', '<C-Space>', function()
+				vim.lsp.completion.get()
+			end)
 		end
 	end,
 })
 vim.cmd("set completeopt+=menuone,noselect")
 
 -- highlight on yank
+---@diagnostic disable-next-line: param-type-mismatch
 vim.api.nvim_create_autocmd('TextYankPost', {
 	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
 	callback = function()
