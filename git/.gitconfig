@@ -41,11 +41,7 @@
 [diff-so-fancy]
 	markEmptyLines = false
 
-[pager]
-	diff = diff-so-fancy | $PAGER
-
 [interactive]
-	diffFilter = diff-so-fancy --patch
 	singleKey = true
 
 [push]

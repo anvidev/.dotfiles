@@ -16,6 +16,7 @@ vim.o.tabstop = 4
 vim.o.clipboard = "unnamedplus"
 vim.o.splitbelow = false
 vim.o.splitright = true
+vim.o.expandtab = false
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.cursorline = true
@@ -36,6 +37,7 @@ if vim.g.have_nerd_font then
 	end
 	vim.diagnostic.config({ signs = { text = diagnostic_signs } })
 end
+
 -- install plugins
 vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
@@ -49,6 +51,11 @@ vim.pack.add({
 	{ src = "https://github.com/echasnovski/mini.pairs" },
 	{ src = "https://github.com/echasnovski/mini.ai" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
+	{ src = "https://github.com/dmmulroy/ts-error-translator.nvim" },
+	{
+		src = "https://github.com/Saghen/blink.cmp",
+		version = vim.version.range("^1")
+	},
 	{
 		src = 'https://github.com/nvim-neo-tree/neo-tree.nvim',
 		version = vim.version.range('3')
@@ -71,6 +78,8 @@ require("nvim-treesitter.configs").setup({
 		"typescript",
 		"tsx",
 		"templ",
+		"sql",
+		"svelte",
 	},
 	auto_install = true,
 	highlight = {
@@ -78,6 +87,7 @@ require("nvim-treesitter.configs").setup({
 		additional_vim_regex_highlighting = false,
 	},
 })
+require("ts-error-translator").setup()
 require("mini.ai").setup()
 require("mini.pairs").setup()
 require("lazydev").setup()
@@ -125,6 +135,38 @@ require("conform").setup({
 		lsp_format = "fallback",
 	},
 })
+require("blink.cmp").setup({
+	fuzzy = {
+		implementation = 'prefer_rust',
+		prebuilt_binaries = {
+			force_version = '1.*'
+		}
+	},
+	signature = { enabled = true },
+	appearance = {
+		use_nvim_cmp_as_default = true,
+		nerd_font_variant = 'mono',
+	},
+	completion = {
+		documentation = {
+			auto_show = true,
+			auto_show_delay_ms = 200,
+		}
+	},
+	sources = {
+		providers = {
+			lsp = {
+				name = 'LSP',
+				module = 'blink.cmp.sources.lsp',
+				transform_items = function(_, items)
+					return vim.tbl_filter(function(item)
+						return item.kind ~= require('blink.cmp.types').CompletionItemKind.Keyword
+					end, items)
+				end,
+			},
+		},
+	}
+})
 
 vim.lsp.config('*', {
 	capabilities = {
@@ -146,12 +188,13 @@ vim.lsp.config('*', {
 vim.lsp.enable({
 	"lua_ls",
 	"ts_ls",
-	-- "svelte-language-server",
+	"svelte",
 	"gopls",
 	"templ",
 	"tailwindcss",
 	"html",
 	"emmet_ls",
+	"cssls",
 })
 
 -- colors and theme
@@ -159,6 +202,7 @@ vim.cmd("colorscheme rose-pine")
 
 -- keymaps
 -- misc
+vim.keymap.set("n", "<leader>ps", '<cmd>lua vim.pack.update()<CR>')
 vim.keymap.set("n", "gx", ":sil !open <cWORD><cr>")
 vim.keymap.set("n", "gD", ":vs | lua vim.lsp.buf.definition()<CR>")
 vim.keymap.set({ "n", "v" }, "<leader>fa", vim.lsp.buf.format)
@@ -211,24 +255,6 @@ vim.keymap.set("n", "<leader>ss", ":FzfLua lsp_document_symbols<CR>")
 vim.keymap.set("n", "<leader>s/", ":FzfLua grep_curbuf<CR>")
 
 -- autocmds
--- showing intellisense
-vim.api.nvim_create_autocmd('LspAttach', {
-	callback = function(ev)
-		local client = vim.lsp.get_client_by_id(ev.data.client_id)
-		---@diagnostic disable-next-line: need-check-nil
-		if client:supports_method('textDocument/completion') then
-			---@diagnostic disable-next-line: need-check-nil
-			vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'fuzzy', 'popup' }
-			---@diagnostic disable-next-line: need-check-nil
-			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-			vim.keymap.set('i', '<C-Space>', function()
-				vim.lsp.completion.get()
-			end)
-		end
-	end,
-})
-vim.cmd("set completeopt+=menuone,noselect")
-
 -- highlight on yank
 ---@diagnostic disable-next-line: param-type-mismatch
 vim.api.nvim_create_autocmd('TextYankPost', {
