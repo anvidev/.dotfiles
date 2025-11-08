@@ -90,8 +90,8 @@ cmd-enter = 'exec-and-forget open -n /Applications/Ghostty.app'
 cmd-b = 'exec-and-forget open -n /Applications/Zen Browser.app'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
-cmd-slash = 'layout tiles horizontal vertical'
-cmd-comma = 'layout accordion horizontal vertical'
+cmd-t = 'layout tiles horizontal vertical'
+cmd-shift-t = 'layout accordion horizontal vertical'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
 cmd-h = 'focus left'
