@@ -61,7 +61,9 @@ vim.pack.add({
 		src = 'https://github.com/nvim-neo-tree/neo-tree.nvim',
 		version = vim.version.range('3')
 	},
+	{ src = "https://github.com/gisketch/triforce.nvim" },
 	-- dependencies of other plugins
+	"https://github.com/nvzone/volt",
 	"https://github.com/nvim-lua/plenary.nvim",
 	"https://github.com/MunifTanjim/nui.nvim",
 	"https://github.com/nvim-tree/nvim-web-devicons",
@@ -178,6 +180,12 @@ require("window-picker").setup({
 		-- property to use instead
 
 		font = 'ansi-shadow', -- ansi-shadow |
+	},
+})
+
+require("triforce").setup({
+	keymap = {
+		show_profile = "<leader>tp", -- Open profile with <leader>tp
 	},
 })
 
