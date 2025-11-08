@@ -52,6 +52,7 @@ vim.pack.add({
 	{ src = "https://github.com/echasnovski/mini.ai" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/dmmulroy/ts-error-translator.nvim" },
+	{ src = "https://github.com/s1n7ax/nvim-window-picker" },
 	{
 		src = "https://github.com/Saghen/blink.cmp",
 		version = vim.version.range("^1")
@@ -168,6 +169,18 @@ require("blink.cmp").setup({
 	}
 })
 
+require("window-picker").setup({
+	hint = "floating-big-letter",
+	floating_big_letter = {
+		-- window picker plugin provides bunch of big letter fonts
+		-- fonts will be lazy loaded as they are being requested
+		-- additionally, user can pass in a table of fonts in to font
+		-- property to use instead
+
+		font = 'ansi-shadow', -- ansi-shadow |
+	},
+})
+
 vim.lsp.config('*', {
 	capabilities = {
 		textDocument = {
@@ -195,6 +208,10 @@ vim.lsp.enable({
 	"html",
 	"emmet_ls",
 	"cssls",
+	"jsonls",
+	"sourcekit",
+	"dockerls",
+	"docker_language_server",
 })
 
 -- colors and theme
