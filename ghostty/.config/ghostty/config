@@ -2,3 +2,4 @@ cursor-style = block
 theme = rose-pine
 title = " "
 macos-titlebar-proxy-icon = hidden
+font-size = 15
