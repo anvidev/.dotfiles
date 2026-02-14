@@ -3,17 +3,18 @@ vim.pack.add({
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/folke/lazydev.nvim" },
-	{ src = "https://github.com/nvim-mini/mini.completion" },
 	-- { src = "https://github.com/echasnovski/mini.pairs" },
 	{ src = "https://github.com/echasnovski/mini.ai" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/nvim-tree/nvim-tree.lua" },
 	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
-	{ src = "https://github.com/mcauley-penney/techbase.nvim" },
 	{ src = "https://github.com/vieitesss/miniharp.nvim" },
-	{ src = "https://github.com/nvim-mini/mini.snippets" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
+	{
+		src = "https://github.com/Saghen/blink.cmp",
+		version = vim.version.range("^1"),
+	},
 
 	-- dependencies
 	"https://github.com/nvim-lua/plenary.nvim",
@@ -27,9 +28,55 @@ require("mason").setup()
 require("mini.ai").setup()
 -- require("mini.pairs").setup()
 require("vague").setup()
-require("mini.completion").setup()
 
 require("miniharp").setup({ show_on_autoload = true })
+
+require("blink.cmp").setup({
+	signature = { enabled = true },
+	completion = {
+		accept = { auto_brackets = { enabled = false } },
+		documentation = {
+			auto_show = true,
+			auto_show_delay_ms = 200,
+		},
+		menu = {
+			draw = {
+				columns = {
+					{ "label", "label_description", gap = 1 },
+					{ "kind_icon", "kind", gap = 1 },
+				},
+				components = {
+					kind = {
+						text = function(ctx)
+							return ctx.source_name == "cmdline" and "" or ctx.kind
+						end,
+					},
+				},
+			},
+		},
+	},
+	fuzzy = {
+		implementation = "prefer_rust",
+		prebuilt_binaries = {
+			force_version = "1.*",
+		},
+	},
+	sources = {
+		default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+		providers = {
+			lazydev = {
+				name = "LazyDev",
+				module = "lazydev.integrations.blink",
+				score_offset = 100,
+			},
+		},
+		transform_items = function(_, items)
+			return vim.tbl_filter(function(item)
+				return item.kind ~= require("blink.cmp.types").CompletionItemKind.Snippet
+			end, items)
+		end,
+	},
+})
 
 require("gitsigns").setup({
 	sign_priority = 1000,
@@ -62,8 +109,8 @@ require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
 		go = { "goimports", "gofmt" },
-		javascript = { "prettier" },
-		typescript = { "prettier" },
+		javascript = { "prettierd", "prettier" },
+		typescript = { "prettierd", "prettier" },
 	},
 	format_on_save = {
 		timeout_ms = 500,
@@ -71,14 +118,6 @@ require("conform").setup({
 	},
 	default_format_opts = {
 		lsp_format = "fallback",
-	},
-})
-
-local gen_loader = require("mini.snippets").gen_loader
-require("mini.snippets").setup({
-	snippets = {
-		gen_loader.from_file("~/.config/nvim/snippets/global.json"),
-		gen_loader.from_lang(),
 	},
 })
 
@@ -90,7 +129,6 @@ require("fzf-lua").setup({
 		builtin = {
 			["<C-f>"] = "preview-page-down",
 			["<C-b>"] = "preview-page-up",
-			["<C-p>"] = "toggle-preview",
 		},
 	},
 })

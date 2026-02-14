@@ -6,10 +6,10 @@ vim.lsp.enable({
 	"cssls",
 	"emmet_ls",
 	"html",
-	"htmx",
 	"jsonls",
 	"templ",
-	"ts_ls",
 	"tailwindcss",
+	"vtsls",
 })
+
 vim.diagnostic.config({ virtual_text = true })
