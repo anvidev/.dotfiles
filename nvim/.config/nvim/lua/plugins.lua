@@ -4,7 +4,7 @@ vim.pack.add({
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/folke/lazydev.nvim" },
 	{ src = "https://github.com/nvim-mini/mini.completion" },
-	{ src = "https://github.com/echasnovski/mini.pairs" },
+	-- { src = "https://github.com/echasnovski/mini.pairs" },
 	{ src = "https://github.com/echasnovski/mini.ai" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/nvim-tree/nvim-tree.lua" },
@@ -24,13 +24,39 @@ vim.pack.add({
 
 require("lazydev").setup()
 require("mason").setup()
-require("mini.completion").setup()
 require("mini.ai").setup()
-require("mini.pairs").setup()
-require("gitsigns").setup()
+-- require("mini.pairs").setup()
 require("vague").setup()
+require("mini.completion").setup()
 
 require("miniharp").setup({ show_on_autoload = true })
+
+require("gitsigns").setup({
+	sign_priority = 1000,
+	on_attach = function()
+		local gitsigns = require("gitsigns")
+		vim.keymap.set("n", "<leader>gs", gitsigns.stage_hunk)
+		vim.keymap.set("n", "<leader>gr", gitsigns.reset_hunk)
+		vim.keymap.set("n", "<leader>gp", gitsigns.preview_hunk)
+		vim.keymap.set("n", "<leader>gb", gitsigns.blame_line)
+		vim.keymap.set("n", "gn", function()
+			if vim.wo.diff then
+				vim.cmd.normal({ "]c", bang = true })
+			else
+				---@diagnostic disable-next-line: param-type-mismatch
+				gitsigns.nav_hunk("next")
+			end
+		end)
+		vim.keymap.set("n", "gp", function()
+			if vim.wo.diff then
+				vim.cmd.normal({ "[c", bang = true })
+			else
+				---@diagnostic disable-next-line: param-type-mismatch
+				gitsigns.nav_hunk("prev")
+			end
+		end)
+	end,
+})
 
 require("conform").setup({
 	formatters_by_ft = {
