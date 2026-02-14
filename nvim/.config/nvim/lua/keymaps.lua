@@ -2,6 +2,8 @@
 --
 -- open diagnostic window (<C-w>d)
 -- redo (<C-r>)
+-- goto end of line ($)
+-- goto start of line (_)
 
 local keymap = vim.keymap.set
 
@@ -11,6 +13,8 @@ keymap("n", "U", "<C-r>")
 keymap("n", "yf", ":%y<CR>")
 keymap("n", "<leader>lw", "<cmd>set wrap!<CR>")
 keymap("n", "<leader>dw", "<cmd>noautocmd w <CR>")
+keymap("n", "L", "$")
+keymap("n", "H", "^")
 keymap("n", "<Esc>", ":nohlsearch<CR>")
 keymap("n", "<c-k>", ":wincmd k<CR>")
 keymap("n", "<c-j>", ":wincmd j<CR>")
