@@ -13,7 +13,7 @@ vim.pack.add({
 	{ src = "https://github.com/vieitesss/miniharp.nvim" },
 	{ src = "https://github.com/nvim-mini/mini.snippets" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
-	{ src = "https://github.com/rose-pine/neovim" },
+	{ src = "https://github.com/vague-theme/vague.nvim" },
 
 	-- dependencies
 	"https://github.com/nvim-lua/plenary.nvim",
@@ -28,6 +28,7 @@ require("mini.completion").setup()
 require("mini.ai").setup()
 require("mini.pairs").setup()
 require("gitsigns").setup()
+require("vague").setup()
 
 require("miniharp").setup({ show_on_autoload = true })
 

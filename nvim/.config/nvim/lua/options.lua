@@ -35,4 +35,4 @@ opt.undofile = true
 opt.completeopt = "menu,menuone,popup,fuzzy,noinsert"
 
 cmd.filetype("plugin indent on")
-cmd("colorscheme rose-pine")
+cmd("colorscheme vague")
