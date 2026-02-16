@@ -1,4 +1,4 @@
--- lsp server configs: https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls
+-- lsp server configs: https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 
 vim.lsp.enable({
 	"gopls",

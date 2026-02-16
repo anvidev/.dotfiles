@@ -1,9 +1,9 @@
 vim.pack.add({
+	-- { src = "https://github.com/echasnovski/mini.pairs" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/folke/lazydev.nvim" },
-	-- { src = "https://github.com/echasnovski/mini.pairs" },
 	{ src = "https://github.com/echasnovski/mini.ai" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/nvim-tree/nvim-tree.lua" },
@@ -11,6 +11,7 @@ vim.pack.add({
 	{ src = "https://github.com/vieitesss/miniharp.nvim" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{
 		src = "https://github.com/Saghen/blink.cmp",
 		version = vim.version.range("^1"),
@@ -20,13 +21,12 @@ vim.pack.add({
 	"https://github.com/nvim-lua/plenary.nvim",
 	"https://github.com/MunifTanjim/nui.nvim",
 	"https://github.com/nvim-tree/nvim-web-devicons",
-	"https://github.com/neovim/nvim-lspconfig",
 })
 
+-- require("mini.pairs").setup()
 require("lazydev").setup()
 require("mason").setup()
 require("mini.ai").setup()
--- require("mini.pairs").setup()
 require("vague").setup()
 
 require("miniharp").setup({ show_on_autoload = true })
@@ -150,6 +150,10 @@ require("nvim-treesitter.configs").setup({
 		"sql",
 		"svelte",
 	},
+	highlight = {
+		enable = true,
+		additional_vim_regex_highlighting = false,
+	},
 })
 
 require("nvim-tree").setup({
@@ -164,12 +168,19 @@ require("nvim-tree").setup({
 
 		vim.keymap.set("n", "s", api.node.open.edit, opts("Open/close folder"))
 		vim.keymap.set("n", "?", api.tree.toggle_help, opts("Help"))
+		vim.keymap.set("n", "H", function()
+			api.filter.dotfiles.toggle()
+			api.filter.git.ignored.toggle()
+		end, opts("Toggle hidden and git ignored files"))
 	end,
 	git = {
 		enable = true,
 	},
 	diagnostics = {
 		enable = true,
+	},
+	filters = {
+		dotfiles = true,
 	},
 	modified = {
 		enable = true,
