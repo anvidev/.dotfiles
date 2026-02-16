@@ -34,7 +34,8 @@ opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 opt.undofile = true
 opt.completeopt = "menu,menuone,popup,fuzzy,noinsert"
 opt.winborder = "single"
-opt.pumborder = "single"
 
 cmd.filetype("plugin indent on")
 cmd("colorscheme vague")
+
+vim.filetype.add({ extension = { templ = "templ" } })

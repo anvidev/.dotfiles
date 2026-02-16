@@ -111,6 +111,8 @@ require("conform").setup({
 		go = { "goimports", "gofmt" },
 		javascript = { "prettierd", "prettier" },
 		typescript = { "prettierd", "prettier" },
+		javascriptreact = { "prettierd", "prettier", stop_after_first = true },
+		typescriptreact = { "prettierd", "prettier", stop_after_first = true },
 	},
 	format_on_save = {
 		timeout_ms = 500,
