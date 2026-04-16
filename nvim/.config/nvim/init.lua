@@ -111,7 +111,9 @@ require("oil").setup({
         border = "single",
         max_width = 0.5,
         max_height = 0.5,
-    }
+    },
+    confirmation = { border = "single" },
+    keymaps_help = { border = "single" },
 })
 require("blink.cmp").setup({
     signature = { enabled = true },
